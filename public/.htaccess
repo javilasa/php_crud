@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Excluir la carpeta /public/assets de las reglas de reescritura
+    RewriteCond %{REQUEST_URI} ^/public/assets/
+    RewriteRule ^ - [L]
+
+    # Redirigir todo excepto archivos y directorios existentes a index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
