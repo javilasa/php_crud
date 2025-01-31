@@ -16,7 +16,6 @@ class User
         $this->conn = $db->connect();
     }
 
-    // Obtener todos los usuarios
     public function getAll()
     {
         $query = "            
@@ -28,14 +27,13 @@ class User
                 USER.role_id, 
                 ROLES.role_name 
             FROM USER 
-            INNER JOIN ROLES ON USER.role_id = ROLES.id  
+            LEFT JOIN ROLES ON USER.role_id = ROLES.id  
         ";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Buscar un usuario por ID
     public function findById($id)
     {
         $query = "           
@@ -47,7 +45,7 @@ class User
                 USER.role_id, 
                 ROLES.role_name 
             FROM USER 
-            INNER JOIN ROLES ON USER.role_id = ROLES.id  
+            LEFT JOIN ROLES ON USER.role_id = ROLES.id  
             WHERE USER.id = :id
         ";
         $stmt = $this->conn->prepare($query);
@@ -56,7 +54,6 @@ class User
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Buscar un usuario por email
     public function findByEmail($email)
     {
         $query = "
@@ -78,7 +75,6 @@ class User
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Crear un nuevo usuario
     public function create($data)
     {
         try {
@@ -99,7 +95,6 @@ class User
         }
     }
 
-    // Actualizar un usuario existente
     public function update($id, $data)
     {
         try {
@@ -119,7 +114,6 @@ class User
         }
     }
 
-    // Eliminar un usuario
     public function delete($id)
     {
         $query = "DELETE FROM USER WHERE id = :id";

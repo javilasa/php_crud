@@ -16,7 +16,6 @@ class Role
         $this->conn = $db->connect();
     }
 
-    // Obtener todos los roles
     public function getAll()
     {
         $query = "SELECT id, role_name FROM ROLES";

@@ -36,7 +36,8 @@ class AuthController {
                 "aud" => "http://dominio.com",
                 "iat" => time(),
                 "exp" => time() + JwtConfig::$expirationTime,
-                "email" => $email
+                "email" => $email,
+                "rol_id" => $user['role_id']
             ];
 
             $jwt = JWT::encode($payload, JwtConfig::$secretKey, JwtConfig::$algorithm);
@@ -53,15 +54,12 @@ class AuthController {
             $decoded = JWT::decode($token, new Key(JwtConfig::$secretKey, JwtConfig::$algorithm));
             return $decoded;
         } catch (ExpiredException $e) {
-            // El token ha expirado
             error_log("Token expirado: " . $e->getMessage());
             return null;
         } catch (SignatureInvalidException $e) {
-            // La firma del token es inválida
             error_log("Firma inválida: " . $e->getMessage());
             return null;
         } catch (BeforeValidException $e) {
-            // El token no es válido todavía (por ejemplo, si tiene un "nbf" claim)
             error_log("Token no válido todavía: " . $e->getMessage());
             return null;
         } catch (\DomainException $e) {
@@ -90,6 +88,7 @@ class AuthController {
             if ($decoded) {
                 $response['code'] = 200;
                 $response['message'] = "Success";
+                $response['data'] = $decoded;
             } else {
                 $response['code'] = 401;
                 $response['message'] = "Unauthorized: Invalid token";
