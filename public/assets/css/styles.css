@@ -37,7 +37,7 @@ body {
 }
 
 button {
-    width: 100%;
+    width: 100px;
     padding: 10px;
     background-color: #28a745;
     color: #fff;
