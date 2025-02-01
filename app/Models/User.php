@@ -98,14 +98,36 @@ class User
     public function update($id, $data)
     {
         try {
-            $query = "UPDATE USER SET name = :name, email = :email, role_id = :role_id WHERE id = :id";
+            $query = "UPDATE USER SET name = :name, email = :email";
+        
+            if (!empty($data['role_id'])) {
+                $query .= ", role_id = :role_id";
+            }
+
+            if (!empty($data['password'])) {
+                $query .= ", password = :password";
+            }
+    
+            $query .= " WHERE id = :id";
+    
             $stmt = $this->conn->prepare($query);
+    
             $stmt->bindParam(':id', $id);
             $stmt->bindParam(':name', $data['name']);
             $stmt->bindParam(':email', $data['email']);
-            $stmt->bindParam(':role_id', $data['role_id']);
+    
+            if (!empty($data['role_id'])) {
+                $stmt->bindParam(':role_id', $data['role_id']);
+            }
+
+            if (!empty($data['password'])) {
+                $hashedPassword = password_hash($data['password'], PASSWORD_BCRYPT);
+                $stmt->bindParam(':password', $hashedPassword);
+            }
+    
             $stmt->execute();
-            return ['code' => 200, 'message' => 'The User was updated successfully'];
+    
+            return ['code' => 200, 'message' => 'The User was updated successfully'];        
         } catch (PDOException $e) {
             if ($e->getCode() == 23000) {
                 return ['code' => 300, 'error' => 'The email already exists.'];

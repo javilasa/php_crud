@@ -15,18 +15,18 @@ class ApiUserController
         $response = $oAuth->validateRequest();
         if ($response['code'] == 200) {
             $user = new User();
+            $currentUserId = $response['data']->user_id;
             switch ($method) {
                 case 'GET':
-                    if (!$this->validateAction($response, "read_users")) {
-                        echo json_encode(['code' => 299, 'message' => 'Not authorized - read users']);
-                    } else {
+                    if ($this->validateAction($response, "read_users") || ($this->validateAction($response, "update_profile") && $id == $currentUserId) ) {
                         echo json_encode($user->findById($id));
+                        
+                    } else {
+                        echo json_encode(['code' => 299, 'message' => 'Not authorized - read users']);
                     }
                     break;
                 case 'PUT':
-                    if (!$this->validateAction($response, "update_users")) {
-                        echo json_encode(['code' => 299, 'message' => 'Not authorized - update users']);
-                    } else {
+                    if ($this->validateAction($response, "update_users") || ($this->validateAction($response, "update_profile") && $id == $currentUserId)) {
                         $data = json_decode(file_get_contents("php://input"), true);
                         if ($data) {
                             $response = $user->update($id, $data);
@@ -37,7 +37,9 @@ class ApiUserController
                             }
                         } else {
                             echo "No Data";
-                        }
+                        }                        
+                    } else {
+                        echo json_encode(['code' => 299, 'message' => 'Not authorized - update users']);
                     }
 
                     break;
@@ -95,7 +97,7 @@ class ApiUserController
                     break;
             }
         } else {
-            echo json_encode(['error' => $response['message']]);
+            echo json_encode(['code' => 298, 'message' => $response['message']]);
         }
     }
 

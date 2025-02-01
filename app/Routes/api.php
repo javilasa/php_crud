@@ -6,5 +6,6 @@ return [
     '/api/users/{id}' => 'ApiUserController@user',
 
     '/api/roles' => 'ApiRolController@roles',
-    '/api/roles/{id}' => 'ApiRolController@rol'
+    '/api/roles/{id}' => 'ApiRolController@rol',
+    '/api/roles/list' => 'ApiRolController@list'
 ];

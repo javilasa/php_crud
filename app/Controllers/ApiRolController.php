@@ -23,8 +23,8 @@ class ApiRolController
                     if (!$this->validateAction($response, "read_roles")) {
                         echo json_encode(['code' => 299, 'message' => 'Not authorized - read roles']);
                     } else {
-                        $users = $rol->getAll();
-                        echo json_encode($users);
+                        $roles = $rol->getAll();
+                        echo json_encode($roles);
                     }
                     break;
 
@@ -99,6 +99,17 @@ class ApiRolController
                     }
                     break;
             }
+        }
+    }
+
+    public function List() {
+        $oAuth = new AuthController();
+        $response = $oAuth->validateRequest();
+
+        if ($response['code'] == 200) {
+            $rol = new Role();
+            $roles = $rol->getAll();
+            echo json_encode($roles);
         }
     }
 

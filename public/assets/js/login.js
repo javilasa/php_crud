@@ -19,8 +19,8 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
     .then(response => response.json())
     .then(data => {
         if (data.token) {
-
             localStorage.setItem('jwtToken', data.token);
+            localStorage.setItem('userId', data.userId);
 
             document.getElementById('message').textContent = 'Login exitoso. Redirigiendo...';
             document.getElementById('message').style.color = '#28a745';

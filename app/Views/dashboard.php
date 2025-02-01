@@ -14,9 +14,10 @@
         <aside class="sidebar">
             <h2>Dashboard</h2>
             <ul>
-                <li><a href="#" id="usersLink">Usuarios</a></li>
+                <li><a href="#" id="usersLink">Users</a></li>
                 <li><a href="#" id="rolesLink">Roles</a></li>
-                <li><a href="/logout">Cerrar sesión</a></li>
+                <li><a href="#" id="profileLink">Profile</a></li>
+                <li><a href="/logout">Logout</a></li>
             </ul>
         </aside>
 
@@ -30,7 +31,7 @@
     <div id="editUserModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>ADD/EDIT Usuario</h2>
+            <h2>ADD/EDIT USER</h2>
             <form id="editUserForm">
                 <div class="form-group">
                     <label for="editUserName">Name:</label>
@@ -42,7 +43,7 @@
                 </div>
                 <div class="form-group">
                     <label for="editUserPassword">Password:</label>
-                    <input type="password" id="editUserPassword" name="password" required>
+                    <input type="password" id="editUserPassword" name="password">
                 </div>
                 <div class="form-group">
                     <label for="editUserRole">Rol:</label>
@@ -68,6 +69,27 @@
         </div>
     </div>
 
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>ADD/EDIT PROFILE</h2>
+            <form id="editProfileForm">
+                <div class="form-group">
+                    <label for="editUserName">Name:</label>
+                    <input type="text" id="editProfileName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="editUserEmail">Email:</label>
+                    <input type="email" id="editProfileEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="editUserPassword">Password:</label>
+                    <input type="password" id="editProfilePassword" name="password">
+                </div>
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
     <script src="/assets/js/dashboard.js"></script>
 </body>
 

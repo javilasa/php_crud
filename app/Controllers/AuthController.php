@@ -37,12 +37,13 @@ class AuthController {
                 "iat" => time(),
                 "exp" => time() + JwtConfig::$expirationTime,
                 "email" => $email,
-                "rol_id" => $user['role_id']
+                "rol_id" => $user['role_id'],
+                "user_id" => $user['id']
             ];
 
             $jwt = JWT::encode($payload, JwtConfig::$secretKey, JwtConfig::$algorithm);
 
-            echo json_encode(['token' => $jwt]);
+            echo json_encode(['token' => $jwt, 'userId' => $user['id']]);
         } else {
             echo json_encode(['error' => 'Invalid credentials']);
         }
